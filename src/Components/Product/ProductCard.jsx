@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import CurrencyFormat from "../CurrencyFormat/CurrencyFormat";
 import Rating from "@mui/material/Rating";
 import classes from "./Product.module.css";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { DataContext } from "../DataProvider/DataProvider";
 // import { Type } from "../../Utility/action.type";
 function ProductCard({ product, flex, renderDesc, renderAdd }) {
@@ -28,17 +28,17 @@ function ProductCard({ product, flex, renderDesc, renderAdd }) {
         flex ? classes.product__flexed : ""
       }`}
     >
-      {/* <Link to={`/products/${id}`}> */}
+      <Link to={`/products/${id}`}>
         <img src={image} alt="" />
-      {/* </Link> */}
+      </Link>
       <div>
         <h3>{title}</h3>
         {/* {renderDesc && <div style={{ maxWidth: "750px" }}>{description}</div>} */}
         <div className={classes.rating}>
           {/* rating */}
-          <Rating value={rating.rate} precision={0.1} />
+          <Rating value={rating?.rate} precision={0.1} />
           {/* rating counter */}
-          <small>{rating.count}</small>
+          <small>{rating?.count}</small>
         </div>
         <div>
           {/* price */}
