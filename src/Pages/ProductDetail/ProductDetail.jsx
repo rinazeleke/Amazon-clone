@@ -8,7 +8,7 @@ import ProductCard from "../../Components/Product/ProductCard";
 import Loader from "../../Components/Loader/Loader";
 
 function ProductDetail() {
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Initially set to true
   const { productId } = useParams();
 
@@ -28,17 +28,21 @@ function ProductDetail() {
 
   return (
     <LayOut>
-      {isLoading ? (<Loader />) : product ? (
-        <ProductCard 
+      {isLoading ? (
+        <Loader />
+      ) : product ? (
+        <ProductCard
           product={product}
           flex={true}
           renderAdd={true}
           renderDesc={true}
-        /> ) : ( 
-          <div></div>
-        )} 
+        />
+      ) : (
+        <div>Product not found</div>
+      )}
     </LayOut>
   );
 }
 
 export default ProductDetail;
+

@@ -9,12 +9,13 @@ import Loader from "../../Components/Loader/Loader";
 
 function Results() {
   const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // Initialize loading state as true
+  const [isLoading, setIsLoading] = useState(true); // Initialize loading state as true
   const { categoryName } = useParams();
 
   useEffect(() => {
     setIsLoading(true); // Set loading to true when the request starts
-    axios.get(`${productUrl}/products/category/${categoryName}`)
+    axios
+      .get(`${productUrl}/products/category/${categoryName}`)
       .then((res) => {
         setResults(res.data);
         setIsLoading(false); // Set loading to false when the request completes
@@ -27,25 +28,25 @@ function Results() {
 
   return (
     <LayOut>
-        <section>
+      <section>
         <h1 style={{ padding: "30px" }}>Results</h1>
         <p style={{ padding: "30px" }}>Category / {categoryName}</p>
         <hr />
-        {isLoading ? ( 
-      <Loader />
-      ) : ( 
-        <div className={classes.products_container}>
-              {results?.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    renderDesc={false}
-                    renderAdd={true}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className={classes.products_container}>
+            {results?.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                renderDesc={false}
+                renderAdd={true}
               />
             ))}
           </div>
-          )} 
-        </section>
+        )}
+      </section>
     </LayOut>
   );
 }
