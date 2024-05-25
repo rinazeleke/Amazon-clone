@@ -9,7 +9,7 @@ import Loader from "../../Components/Loader/Loader";
 
 function Results() {
   const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Initialize loading state as true
+  const [isLoading, setIsLoading] = useState(false); // Initialize loading state as true
   const { categoryName } = useParams();
 
   useEffect(() => {

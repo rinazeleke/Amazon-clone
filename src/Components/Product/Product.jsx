@@ -6,10 +6,11 @@ import Loader from "../Loader/Loader";
 
 function Product() {
   const [products, setProducts] = useState([]); // Initialize products as an empty array
-  const [isLoading, setIsLoading] = useState(false); // Initialize loading state as true
+  const [isLoading, setIsLoading] = useState(true); // Initialize loading state as true
 
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products")
+    axios
+      .get("https://fakestoreapi.com/products")
       .then((res) => {
         setProducts(res.data);
         setIsLoading(false);
@@ -22,20 +23,20 @@ function Product() {
 
   return (
     <>
-    {isLoading ? (
+      {isLoading ? (
         <Loader />
-      ) : ( 
+      ) : (
         <section className={classes.products_container}>
           {products.map((singleProduct) => (
             <ProductCard
               product={singleProduct}
               key={singleProduct.id}
               renderAdd={true}
-              renderDesc={true}
+              // renderDesc={true}
             />
           ))}
         </section>
-      )} 
+      )}
     </>
   );
 }

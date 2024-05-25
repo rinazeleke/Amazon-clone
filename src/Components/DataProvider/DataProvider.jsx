@@ -9,3 +9,4 @@ export const DataProvider = ({ children, reducer, intialState }) => {
     </DataContext.Provider>
   );
 };
+export default DataProvider;
