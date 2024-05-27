@@ -3,6 +3,7 @@ import { Type } from "./action.type";
 
 export const intialState = {
   basket: [],
+  user:null
 };
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -39,13 +40,19 @@ export const reducer = (state, action) => {
         } else {
           newBasket.splice(index, 1);
         }
-
+      }
         return {
           ...state,
           basket: newBasket,
         };
-      }
-    default:
-      return state;
-  }
+        
+        
+        case Type.SET_USER:
+          return{
+            ...state,
+            user:action.user
+          }
+        default:
+          return state;
+    }
 };

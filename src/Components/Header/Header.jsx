@@ -6,11 +6,14 @@ import { BiCart } from "react-icons/bi";
 import LowerHeader from './LowerHeader';
 import classes from "./Header.module.css";
 import { DataContext } from '../DataProvider/DataProvider';
+import { auth } from '../../Utility/firebase';
 
 const Header = () => {
  
-    const[{basket},dispatch]=useContext(DataContext)
-    console.log(basket.length)
+    const[{user, basket},dispatch]=useContext(DataContext);
+    const totaLItem = basket?.reduce((amount, item) => {
+        return item.amount + amount;
+    }, 0);
     return (
         <section className={classes.fixed}>
             <section className={classes.header_container}>
@@ -34,11 +37,11 @@ const Header = () => {
                 <div className={classes.search}>
                     {/* search */}
                     <select name="" id="">
-                        <option value="">All</option>
+                        <option value="" >All</option>
                     </select>
                     <input type="text" name="" id="" placeholder="Search Product" />
                     {/* icon */}
-                    <BsSearch size={25} />
+                    <BsSearch size={38} />
                 </div>
                 {/* Right Side link */}
                 <div  className={classes.order_container}>
@@ -52,10 +55,19 @@ const Header = () => {
                         </section>
                     </Link>
                     {/* three Components */}
-                    <Link to='/auth' >
+                    <Link to={!user &&'/auth'} >
                         <div>
-                            <p>Sign In</p>
-                            <span>Account & Lists</span>
+                            {user ? (
+                                <>
+                                    <p>Hello {user?.email?.split("@")[0]}</p>
+                                    <span onClick={() => auth.signOut()}>Sign Out</span>
+                                </>    
+                            ) : ( 
+                                <> 
+                                    <p>Hello, Sign In</p>
+                                    <span>Account & Lists</span>
+                                </>
+                            )}
                         </div>
                     </Link>
                     {/* orders */}
