@@ -36,7 +36,7 @@ function Orders() {
             orders?.map((eachOrder)=>{
 
               return(
-                <div key ={i}>
+                <div>
                   <hr/>
                   <p>Order ID: {eachOrder?.id}</p>
                   {
