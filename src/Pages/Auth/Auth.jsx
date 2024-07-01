@@ -16,7 +16,7 @@ function Auth() {
     signUp: false,
   });
 
-  const [, dispatch] = useContext(DataContext); // Omit user since it's not used
+  const [{ user }, dispatch] = useContext(DataContext);
   const navigate = useNavigate();
   const navStateData = useLocation();
 
@@ -25,7 +25,6 @@ function Auth() {
     const { name } = e.target;
 
     if (name === "signin") {
-      // Firebase auth sign in
       setLoading((prev) => ({ ...prev, signIn: true }));
       signInWithEmailAndPassword(auth, email, password)
         .then((userInfo) => {
@@ -58,6 +57,17 @@ function Auth() {
     }
   };
 
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch({
+          type: Type.REMOVE_USER,
+        });
+        navigate("/");
+      })
+      .catch((err) => setError(err.message));
+  };
+
   return (
     <section className={classes.login}>
       <Link to="/">
@@ -67,7 +77,7 @@ function Auth() {
         />
       </Link>
       <div className={classes.login_container}>
-        <h1>Sign In</h1>
+        <h1>{user ? "Sign Out" : "Sign In"}</h1>
         {navStateData?.state?.msg && (
           <small
             style={{
@@ -80,47 +90,55 @@ function Auth() {
             {navStateData.state.msg}
           </small>
         )}
-        <form>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              id="email"
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              id="password"
-            />
-          </div>
-          <button
-            type="submit"
-            onClick={authHandler}
-            name="signin"
-            className={classes.login_signInButton}
-          >
-            {loading.signIn ? <ClipLoader color="#000" size={15} /> : "Sign In"}
+        {!user ? (
+          <form>
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                id="email"
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                id="password"
+              />
+            </div>
+            <button
+              type="submit"
+              onClick={authHandler}
+              name="signin"
+              className={classes.login_signInButton}
+            >
+              {loading.signIn ? <ClipLoader color="#000" size={15} /> : "Sign In"}
+            </button>
+          </form>
+        ) : (
+          <button onClick={handleSignOut} className={classes.login_signOutButton}>
+            Sign Out
           </button>
-        </form>
-
-        <p>
-          By signing in, you agree to the AMAZON FAKE CLONE condition of use and sale. Please see our Privacy Notice, our Cookies Notice, and our Interest-Based Ads Notice.
-        </p>
-
-        <button
-          type="button"
-          onClick={authHandler}
-          name="signup"
-          className={classes.login_registerButton}
-        >
-          {loading.signUp ? <ClipLoader color="#000" size={15} /> : "Create your Amazon Account"}
-        </button>
+        )}
+        {!user && (
+          <>
+            <p>
+              By signing in, you agree to the AMAZON FAKE CLONE condition of use and sale. Please see our Privacy Notice, our Cookies Notice, and our Interest-Based Ads Notice.
+            </p>
+            <button
+              type="button"
+              onClick={authHandler}
+              name="signup"
+              className={classes.login_registerButton}
+            >
+              {loading.signUp ? <ClipLoader color="#000" size={15} /> : "Create your Amazon Account"}
+            </button>
+          </>
+        )}
         {error && <small style={{ paddingTop: "5px", color: "red" }}>{error}</small>}
       </div>
     </section>

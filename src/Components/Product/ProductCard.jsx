@@ -5,18 +5,21 @@ import classes from "./Product.module.css";
 import { Link } from "react-router-dom";
 import { DataContext } from "../DataProvider/DataProvider";
 import { Type } from "../../Utility/action.type";
+
 function ProductCard({ product, flex, renderDesc, renderAdd }) {
   const { image, title, id, rating, price, description } = product;
 
-  const [state, dispatch] = useContext(DataContext)
+  const [, dispatch] = useContext(DataContext); // Remove 'state' and keep only 'dispatch'
+  
   const addToCart = () => {
     dispatch({
-      type: Type.Add_TO_BASKET,
+      type: Type.ADD_TO_BASKET, // Corrected the action type casing
       item: {
-        image,title,id,rating,price,description
+        image, title, id, rating, price, description,
       },
     });
   };
+
   return (
     <div
       className={`${classes.card__container} ${
