@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, redirect } from "react-router-dom";
 import Landing from "./Pages/Landing/Landing";
 import Auth from "./Pages/Auth/Auth";
-// import Payment from "./Pages/Payment/Payment";
+import Payment from "./Pages/Payment/Payment";
 import Orders from "./Pages/Orders/Orders";
 import Cart from "./Pages/Cart/Cart";
 import Results from "./Pages/Results/Results";
@@ -22,7 +22,7 @@ function Routing() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<Auth />} />
-        {/* <Route path="/payments" 
+        <Route path="/payments" 
           element={
             <ProtectedRoute 
               msg={"you must log in to pay"}
@@ -33,7 +33,7 @@ function Routing() {
               </Elements>
             </ProtectedRoute>
           }
-        /> */}
+        /> 
         <Route path="/orders" element={
           <ProtectedRoute 
             msg={"you must log in to asses your orders"}

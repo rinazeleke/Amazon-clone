@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import {Link} from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { BsSearch } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
 import { BiCart } from "react-icons/bi";
@@ -9,11 +9,13 @@ import { DataContext } from '../DataProvider/DataProvider';
 import { auth } from '../../Utility/firebase';
 
 const Header = () => {
- 
-    const[{user, basket},dispatch]=useContext(DataContext);
-    const totaLItem = basket?.reduce((amount, item) => {
-        return item.amount + amount;
-    }, 0);
+    const [{ user, basket }] = useContext(DataContext);
+    const totalItems = basket?.reduce((amount, item) => item.amount + amount, 0);
+
+    const handleSignOut = () => {
+        auth.signOut();
+    };
+
     return (
         <section className={classes.fixed}>
             <section className={classes.header_container}>
@@ -23,9 +25,8 @@ const Header = () => {
                         <img src='https://pngimg.com/uploads/amazon/amazon_PNG11.png' alt='Amazon Logo' />
                     </Link>
                     <div className={classes.delivery}>
-                    {/* Delivery */}
+                        {/* Delivery */}
                         <span>
-                            {/* icon */}
                             <SlLocationPin />
                         </span>
                         <div>
@@ -37,15 +38,13 @@ const Header = () => {
                 <div className={classes.search}>
                     {/* search */}
                     <select name="" id="">
-                        <option value="" >All</option>
+                        <option value="">All</option>
                     </select>
-                    <input type="text" name="" id="" placeholder="Search Product" />
-                    {/* icon */}
+                    <input type="text" placeholder="Search Product" />
                     <BsSearch size={38} />
                 </div>
-                {/* Right Side link */}
-                <div  className={classes.order_container}>
-                    <Link to='/'  className={classes.language}>
+                <div className={classes.order_container}>
+                    <Link to='/' className={classes.language}>
                         <img
                             src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1024px-Flag_of_the_United_States.svg.png"
                             alt="USA Flag"
@@ -54,40 +53,34 @@ const Header = () => {
                             <option value="">EN</option>
                         </section>
                     </Link>
-                    {/* three Components */}
-                    <Link to={!user &&'/auth'} >
+                    <Link to={!user ? '/auth' : '#' } onClick={user ? handleSignOut : null}>
                         <div>
                             {user ? (
                                 <>
-                                    <p>Hello {user?.email?.split("@")[0]}</p>
-                                    <span onClick={() => auth.signOut()}>Sign Out</span>
-                                </>    
-                            ) : ( 
-                                <> 
+                                    <p>Hello {user.email.split("@")[0]}</p>
+                                    <span>Sign Out</span>
+                                </>
+                            ) : (
+                                <>
                                     <p>Hello, Sign In</p>
                                     <span>Account & Lists</span>
                                 </>
                             )}
                         </div>
                     </Link>
-                    {/* orders */}
-                    <Link to='/orders' >
-                        <p>returns</p>
+                    <Link to='/orders'>
+                        <p>Returns</p>
                         <span>& Orders</span>
                     </Link>
-                    {/* cart */}
                     <Link to="/cart" className={classes.cart}>
-                    {/* icon */}
                         <BiCart size={35} />
-                        <span>{basket.length}</span>
-                    </Link>    
-                </div>    
+                        <span>{totalItems}</span>
+                    </Link>
+                </div>
             </section>
-            <LowerHeader/>
+            <LowerHeader />
         </section>
-    )
-}
+    );
+};
 
-export default Header
-
-
+export default Header;
