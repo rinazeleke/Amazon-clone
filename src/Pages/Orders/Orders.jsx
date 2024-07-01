@@ -28,7 +28,7 @@ function Orders() {
       <section className={classes.container}>
         <div className={classes.orders_container}>
           <h2>your Orders</h2> 
-          {orders?.length == 0 && <div style={{padding:"20px"}}>
+          {orders?.length === 0 && <div style={{padding:"20px"}}>
             you don't have orders yet.
             </div>}
           {/* ordered items */}
