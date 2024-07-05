@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { Type } from "../../Utility/action.type";
 
 function Cart() {
-  const [{ basket, user }, dispatch] = useContext(DataContext);
+  const [{ basket }, dispatch] = useContext(DataContext);
 
   const total = basket.reduce((amount, item) => {
     return item.price * item.amount + amount;
@@ -35,7 +35,7 @@ function Cart() {
           <h2>Hello</h2>
           <h3>Your Shopping Basket</h3>
           <hr />
-          {basket?.length == 0 ? (
+          {basket?.length === 0 ? (
             <p>Opps! there is no item in your cart</p>
           ) : (
             basket?.map((item, i) => (
